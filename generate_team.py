@@ -49,7 +49,15 @@ def merge(entry: dict, pevz) -> dict:
         "photo": entry.get("photo") or PLACEHOLDER_PHOTO,
         "links": entry.get("links") or {},
         "supervisor": entry.get("supervisor"),
+        "intro": entry.get("intro"),
     }
+
+
+def localize(intro, lang: str) -> str:
+    """intro is either one string for both pages or {de: …, en: …}; a missing language falls back to the other."""
+    if not intro or isinstance(intro, str):
+        return intro or ""
+    return intro.get(lang) or next((v for v in intro.values() if v), "")
 
 
 def main():
@@ -80,9 +88,8 @@ def main():
         people = [merge(e, pevz.get(e.get("pevz"))) for e in entries]
         print(f"{section}: {', '.join(p['name'] for p in people)}")
         for lang in LANGS:
-            for p in people:
-                p["anchor"] = comp_id("team", lang, section, p["name"])
-            html = template.render(people=people, L=LABELS[lang], icons=ICONS, text_links=TEXT_LINKS, icon_base=TEAM_DIR)
+            people_lang = [p | {"anchor": comp_id("team", lang, section, p["name"]), "intro": localize(p["intro"], lang)} for p in people]
+            html = template.render(people=people_lang, L=LABELS[lang], icons=ICONS, text_links=TEXT_LINKS, icon_base=TEAM_DIR)
             out = args.out_dir / f"team_{lang}_{section}.{args.ext}"
             out.write_text(html.lstrip("\n"), encoding="utf-8")
     print(f"wrote {len(sections) * len(LANGS)} files to {args.out_dir}")

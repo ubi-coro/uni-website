@@ -5,6 +5,7 @@
 #         Anything you set here overrides PEVZ, so only fill in what PEVZ lacks or gets wrong.
 # photo:  path of the image on www.uni-bielefeld.de (upload it in the CMS, copy the path)
 # links:  orcid, scholar, linkedin, researchgate, openreview (all optional)
+# intro:  short self-introduction, as {de: …, en: …}; one language alone is used on both pages
 # supervisor: name + address lines of the supervisor at the partner institution (joint doctorates)
 #
 # Section headings live in the CMS; each section has one RXML block that inserts team_<lang>_<section>.html.
@@ -54,6 +55,9 @@ staff:  # Wissenschaftliche Mitarbeiter:innen / Staff
   - name: Thomas Günther
     pevz: 467752952
     email: thomas.guenther@uni-bielefeld.de
+    intro:
+      de: Ich arbeite im enableATO-Projekt. Ich interessiere mich für Perzeptionssysteme für ATO.
+      en: I work in the enableATO project. I am interested in perception systems for ATO.
   - name: Philipp Hartmann
     pevz: 467764114
     email: philipp.hartmann@uni-bielefeld.de
@@ -118,6 +122,8 @@ joint:  # Kooperative Promotionen / Joint doctorates
         - 33615 Bielefeld
         - Gebäude D
   - name: Krithiga Ramesh
+    email: krithiga.ramesh@iosb-ina.fraunhofer.de
+    phone: "+49 526 194-29024"
     links:
       researchgate: https://www.researchgate.net/profile/Krithiga-Ramesh
   - name: Ramakrishnan Subramanian
@@ -150,5 +156,7 @@ joint:  # Kooperative Promotionen / Joint doctorates
         - F 116
   - name: Sebastian Willke
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Sebastian-Willke.jpg
+    email: sebastian.willke@iosb-ina.fraunhofer.de
+    phone: "+49 526 194-29024"
     links:
       linkedin: https://www.linkedin.com/in/sebastian-willke-533941226/

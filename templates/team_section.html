@@ -42,6 +42,9 @@
                         </dd>
                         {%- endif %}
                     </dl>
+                    {%- if p.intro %}
+                    <p>{{ p.intro }}</p>
+                    {%- endif %}
                     {%- if p.supervisor %}
                     <strong>{{ p.supervisor.name }}</strong>
                     {%- for line in p.supervisor.address %}
