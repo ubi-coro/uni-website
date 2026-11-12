@@ -10,25 +10,15 @@ Team members come from the PEVZ org page of the group, plus EXTRA_PERSON_IDS. Ev
 """
 
 import argparse
-import hashlib
 import re
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from html import escape
 from pathlib import Path
-from urllib.request import Request, urlopen
 
-import truststore
-from bs4 import BeautifulSoup
+from common import EKVV, Person, comp_id, fetch, indent, inner_html, load_person, obfuscate, org_members, text
 
-# Use the OS trust store, like curl and browsers do
-truststore.inject_into_ssl()
-
-EKVV = "https://ekvv.uni-bielefeld.de"
-
-# Technische Fakultät / Arbeitsgruppen / Kollaborative Robotik
-ORG_ID = 429911235
 # People who teach with us but aren't listed on the org page
 EXTRA_PERSON_IDS: list[int] = []
 
@@ -60,22 +50,6 @@ LABELS = {
 }
 
 
-# --- Fetching -------------------------------------------------------------
-
-def fetch(path: str) -> BeautifulSoup:
-    req = Request(EKVV + path, headers={"User-Agent": "teaching-page-generator (AG Kollaborative Robotik)"})
-    with urlopen(req, timeout=30) as resp:
-        return BeautifulSoup(resp.read().decode("utf-8"), "html.parser")
-
-
-def text(node) -> str:
-    return " ".join(node.get_text(" ").split()) if node else ""
-
-
-def inner_html(node) -> str:
-    return "".join(str(c) for c in node.contents).strip() if node else ""
-
-
 # --- Semesters ------------------------------------------------------------
 
 def semester_key(name: str) -> int:
@@ -105,22 +79,8 @@ class Course:
     lecturers: list[int] = field(default_factory=list)
 
 
-@dataclass
-class Person:
-    id: int
-    name: str
-    photo: str
-    email: str
-    phone: str
-    phone_sekr: str
-    office: str
-    role: dict[str, str]
-
-
 def team_members() -> list[int]:
-    soup = fetch(f"/pers_publ/publ/EinrichtungDetail.jsp?orgId={ORG_ID}")
-    ids = {int(m) for a in soup.select('a[href*="PersonDetail"]') for m in re.findall(r"[?&]personId=(\d+)", a["href"])}
-    return sorted(ids | set(EXTRA_PERSON_IDS))
+    return sorted(set(org_members()) | set(EXTRA_PERSON_IDS))
 
 
 def courses_of(person_id: int) -> list[Course]:
@@ -165,60 +125,7 @@ def load_details(course: Course) -> Course:
     return course
 
 
-def contact_block(soup: BeautifulSoup):
-    """The contact entry for our group, else the first one that has an e-mail address."""
-    blocks = soup.select("div.person_kontakt")
-    for block in blocks:
-        if "Arbeitsgruppen / Kollaborative Robotik" in text(block.select_one("h3")):
-            return block
-    return next((b for b in blocks if b.select_one("a.person_email")), blocks[0] if blocks else None)
-
-
-def load_person(person_id: int) -> Person:
-    soups = {lang: fetch(f"/pers_publ/publ/PersonDetail.jsp?personId={person_id}" + ("&lang=EN" if lang == "en" else "")) for lang in LABELS}
-    soup = soups["de"]
-    block = contact_block(soup)
-    details = {}
-    if block:
-        for dt in block.select("dl.kontakt dt"):
-            dd = dt.find_next_sibling("dd")
-            # Drop the room-plan / secretary links that trail the actual value
-            for extra in dd.select(".not_in_print_version, a[href*='sekretariat']"):
-                extra.decompose()
-            details[text(dt)] = text(dd).rstrip(" −")
-    photo = soup.select_one("img.foto")
-    roles = {}
-    for lang, s in soups.items():
-        b = contact_block(s)
-        roles[lang] = inner_html(b.select_one("dl.aufgabenbeschreibung dd")) if b else ""
-    return Person(
-        id=person_id,
-        name=re.sub(r"^(Herr|Frau)\s+", "", text(soup.select_one("h1"))),
-        photo=photo.parent["href"] if photo and photo.parent.name == "a" else (photo["src"] if photo else ""),
-        email=details.get("E-Mail", ""),
-        phone=details.get("Telefon", ""),
-        phone_sekr=details.get("Telefon Sekretariat", ""),
-        office=details.get("Büro", ""),
-        role=roles,
-    )
-
-
 # --- Rendering ------------------------------------------------------------
-
-def comp_id(*key) -> str:
-    """Deterministic id in the CMS's comp_XXXXXXXXXXXX_XXXXXXXXXX_XXXX format."""
-    h = hashlib.sha1("|".join(map(str, key)).encode()).hexdigest()
-    return f"comp_{h[:12]}_{h[12:22]}_{h[22:26]}"
-
-
-def obfuscate(s: str) -> str:
-    return "".join(f"&#{ord(c)};" for c in s)
-
-
-def indent(block: str, n: int) -> str:
-    pad = " " * n
-    return "\n".join(pad + line if line.strip() else "" for line in block.splitlines())
-
 
 def text_block(html: str, anchor: str) -> str:
     return f"""<div class="ubf-contentBlock ubf-contentBlock--text">

@@ -1,4 +1,4 @@
-name: Teaching pages
+name: Build pages
 
 on:
   schedule:
@@ -23,10 +23,11 @@ jobs:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.3.3
         with:
-          # Dependencies are declared inline in the script (PEP 723)
-          cache-dependency-glob: generate_teaching.py
+          # Dependencies are declared inline in the scripts (PEP 723)
+          cache-dependency-glob: "*.py"
       # Any failed fetch or an empty result exits non-zero, so nothing gets deployed and the last good version stays live
       - run: uv run generate_teaching.py --out-dir _site --ext html
+      - run: uv run generate_team.py --out-dir _site --ext html
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
