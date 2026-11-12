@@ -77,6 +77,9 @@ def contact_block(soup: BeautifulSoup):
     return next((b for b in blocks if b.select_one("a.person_email")), blocks[0] if blocks else None)
 
 
+EMAIL = re.compile(r"[\w.+-]+@[\w-]+(\.[\w-]+)+")
+
+
 def load_person(person_id: int) -> Person:
     soups = {lang: fetch(f"/pers_publ/publ/PersonDetail.jsp?personId={person_id}" + ("&lang=EN" if lang == "en" else "")) for lang in LANGS}
     soup = soups["de"]
@@ -98,7 +101,8 @@ def load_person(person_id: int) -> Person:
         id=person_id,
         name=re.sub(r"^(Herr|Frau)\s+", "", text(soup.select_one("h1"))),
         photo=photo.parent["href"] if photo and photo.parent.name == "a" else (photo["src"] if photo else ""),
-        email=details.get("E-Mail", ""),
+        # When PEVZ withholds addresses (its anti-harvesting limit), this cell holds a login notice instead; never render that
+        email=details.get("E-Mail", "") if EMAIL.fullmatch(details.get("E-Mail", "")) else "",
         phone=details.get("Telefon", ""),
         phone_sekr=details.get("Telefon Sekretariat", ""),
         office=details.get("Büro", ""),
