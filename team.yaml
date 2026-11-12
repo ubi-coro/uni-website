@@ -21,6 +21,9 @@ head:  # Leitung / Head of Group
       scholar: https://scholar.google.com/citations?user=BuECEIcAAAAJ
       linkedin: https://www.linkedin.com/in/klaus-neumann-995aa391/
       openreview: https://openreview.net/profile?id=~Klaus_Neumann1
+    intro:
+      de: Ich bin Klaus Neumann, Professor für Kollaborative Robotik an der Universität Bielefeld und Forschungsgruppenleiter am Fraunhofer IOSB-INA, wo wir daran arbeiten, Roboter intelligenter, anpassungsfähiger und bereit für die reale Welt zu machen. Meine Forschung konzentriert sich auf KI-gesteuerte Robotik, die Bereiche wie verstärktes Lernen, Imitationslernen und Vision-Language-Action-Modelle (VLAs) umfasst, wobei mir das Vermitteln komplexer Manipulationsfähigkeiten an Roboter besonders am Herzen liegt. Von humanoiden Robotern bis hin zu magnetisch schwebenden Robotern (MagBots) ist es mein Ziel, die Grenzen dessen zu erweitern, was intelligente Maschinen in den Fabriken von morgen lernen und leisten können.
+      en: I'm Klaus Neumann, Professor of Collaborative Robotics at Bielefeld University and Research Group Leader at Fraunhofer IOSB-INA, where we work on making robots smarter, more adaptable, and ready for the real world. My research focuses on AI-driven robotics, spanning reinforcement learning, imitation learning, and vision-language-action models (VLAs), with a particular passion for teaching robots complex manipulation skills. From humanoid robots to magnetically levitating robots (MagBots), my goal is to push the boundaries of what intelligent machines can learn and achieve in the factories of tomorrow.
 
 postdocs:  # Postdoktorand:innen / Senior Researchers
   - name: Dr. Hanno Meyer zu Theenhausen
@@ -77,6 +80,9 @@ staff:  # Wissenschaftliche Mitarbeiter:innen / Staff
   - name: József Lurvig
     pevz: 287975422
     email: jozsef.lurvig@uni-bielefeld.de
+    intro:
+      de: "Ich arbeite im enableATO-Projekt an der Umfelderkennung für autonom fahrende Schienenfahrzeuge. Mit einem selbst aufgebauten Sensorfahrzeug nehme ich reale Daten auf und verbinde sie mit Simulation: Per Gaussian Splatting rekonstruierte reale Szenen fließen in die Simulatoren ein, damit synthetische Trainingsdaten der Wirklichkeit möglichst nahekommen."
+      en: "I work in the enableATO project on environment perception for autonomous rail vehicles. I record real-world data with a sensor vehicle we built ourselves and combine it with simulation: real scenes reconstructed with Gaussian Splatting are brought into the simulators, so that synthetic training data comes as close to reality as possible."
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Jozsef-Lurvig.jpg
     links:
       linkedin: https://www.linkedin.com/in/josef-lurvig/
