@@ -31,8 +31,9 @@ ICONS = {
     "orcid": {"title": "ORCID", "file": "icon-orcid.svg"},
     "scholar": {"title": "Google Scholar", "file": "icon-google-scholar.svg"},
     "linkedin": {"title": "LinkedIn", "file": "icon-linkedin.svg"},
+    "researchgate": {"title": "ResearchGate", "file": "icon-researchgate.svg"},
 }
-TEXT_LINKS = {"openreview": "OpenReview", "researchgate": "ResearchGate"}
+TEXT_LINKS = {"openreview": "OpenReview"}
 CONTACT_FIELDS = ("email", "phone", "room")
 
 
@@ -47,6 +48,7 @@ def merge(entry: dict, pevz) -> dict:
         "name": entry["name"],
         "photo": entry.get("photo") or PLACEHOLDER_PHOTO,
         "links": entry.get("links") or {},
+        "supervisor": entry.get("supervisor"),
     }
 
 

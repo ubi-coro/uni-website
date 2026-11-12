@@ -4,7 +4,8 @@
 # pevz:   PEVZ personId. If set, phone / room are taken from PEVZ and stay current automatically.
 #         Anything you set here overrides PEVZ, so only fill in what PEVZ lacks or gets wrong.
 # photo:  path of the image on www.uni-bielefeld.de (upload it in the CMS, copy the path)
-# links:  orcid, scholar, linkedin, openreview, researchgate (all optional)
+# links:  orcid, scholar, linkedin, researchgate, openreview (all optional)
+# supervisor: name + address lines of the supervisor at the partner institution (joint doctorates)
 #
 # Section headings live in the CMS; each section has one RXML block that inserts team_<lang>_<section>.html.
 
@@ -108,6 +109,13 @@ joint:  # Kooperative Promotionen / Joint doctorates
       orcid: https://orcid.org/0009-0003-7639-5627
       scholar: https://scholar.google.de/citations?user=WJOkV10AAAAJ
       linkedin: https://www.linkedin.com/in/julien-marteen-akay/
+    supervisor:
+      name: Prof. Dr.-Ing. Wolfram Schenck
+      address:
+        - Hochschule Bielefeld
+        - Kurt-Schumacher-Str. 6
+        - 33615 Bielefeld
+        - Gebäude D
   - name: Krithiga Ramesh
     links:
       researchgate: https://www.researchgate.net/profile/Krithiga-Ramesh
@@ -118,6 +126,13 @@ joint:  # Kooperative Promotionen / Joint doctorates
     links:
       orcid: https://orcid.org/0009-0004-1538-3224
       linkedin: https://www.linkedin.com/in/ram8kris/
+    supervisor:
+      name: Prof. Dr.-Ing. habil. Ulrich Büker
+      address:
+        - inIT - Institut für industrielle Informationstechnik
+        - Campusallee 6
+        - 32657 Lemgo
+        - CIIT EG 4.5
   - name: Stella Wermuth
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Stella-Wermuth.jpg
     email: stella.wermuth@hsbi.de
@@ -125,10 +140,24 @@ joint:  # Kooperative Promotionen / Joint doctorates
     links:
       orcid: https://orcid.org/0009-0001-3498-527X
       linkedin: https://www.linkedin.com/in/stella-wermuth-912b97209/
+    supervisor:
+      name: Prof. Dr.-Ing. habil. Thorsten Jungeblut
+      address:
+        - Hochschule Bielefeld
+        - Interaktion 1
+        - 33619 Bielefeld
+        - F 116
   - name: Sebastian Willke
     photo: /__uuid/b0b9e924-5f12-4fb6-a99a-bb80c2051f16/Sebastian-Willke.jpg
     links:
       linkedin: https://www.linkedin.com/in/sebastian-willke-533941226/
+    supervisor:
+      name: Prof. Dr.-Ing. Wolfram Schenck
+      address:
+        - Hochschule Bielefeld
+        - Kurt-Schumacher-Str. 6
+        - 33615 Bielefeld
+        - Gebäude D
 
 assistants:  # Wissenschaftliche Hilfskräfte / Research assistants
   - name: Cedric Noah Grothues
