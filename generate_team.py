@@ -6,7 +6,7 @@
 
 Run with: uv run generate_team.py [--out-dir DIR] [--ext html]
 
-Writes one file per section and language (team_de_staff.html, …), because the section headings live in the CMS and each section has its own RXML block. People with a `pevz` id get email / phone / room from PEVZ unless team.yaml sets them. Anyone listed on the group's PEVZ org page but missing from team.yaml is reported as a warning.
+Writes one file per section and language (team_de_staff.html, …), because the section headings live in the CMS and each section has its own RXML block. People with a `pevz` id get phone / room from PEVZ unless team.yaml sets them; e-mail addresses always come from team.yaml. Anyone listed on the group's PEVZ org page but missing from team.yaml is reported as a warning.
 """
 
 import argparse
@@ -14,11 +14,10 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-import yaml
 from jinja2 import Environment, FileSystemLoader
 from markupsafe import Markup
 
-from common import LANGS, comp_id, load_person, obfuscate, org_members
+from common import LANGS, comp_id, load_person, load_team, obfuscate, org_members
 
 HERE = Path(__file__).parent
 TEAM_DIR = "/fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team"
@@ -38,8 +37,8 @@ CONTACT_FIELDS = ("email", "phone", "room")
 
 
 def merge(entry: dict, pevz) -> dict:
-    """team.yaml wins over PEVZ, field by field."""
-    from_pevz = {"email": pevz.email, "phone": pevz.phone, "room": pevz.office} if pevz else {}
+    """team.yaml wins over PEVZ, field by field. E-mail addresses only ever come from team.yaml."""
+    from_pevz = {"phone": pevz.phone, "room": pevz.office} if pevz else {}
     person = {k: entry.get(k) or from_pevz.get(k, "") for k in CONTACT_FIELDS}
     unknown = set(entry.get("links") or {}) - set(ICONS) - set(TEXT_LINKS)
     if unknown:
@@ -57,7 +56,7 @@ def main():
     parser.add_argument("--ext", default="html", help="file extension of the output files")
     args = parser.parse_args()
 
-    sections = yaml.safe_load((HERE / "team.yaml").read_text(encoding="utf-8"))
+    sections = load_team()
     if not sections or not any(sections.values()):
         sys.exit("team.yaml lists nobody")
 

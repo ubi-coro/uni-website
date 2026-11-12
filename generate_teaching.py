@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["beautifulsoup4", "truststore"]
+# dependencies = ["beautifulsoup4", "truststore", "pyyaml"]
 # ///
 """Build teaching_de.xml and teaching_en.xml from eKVV / PEVZ.
 
@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 from html import escape
 from pathlib import Path
 
-from common import EKVV, Person, comp_id, fetch, indent, inner_html, load_person, obfuscate, org_members, text
+from common import EKVV, Person, comp_id, fetch, indent, inner_html, load_person, obfuscate, org_members, team_emails, text
 
 # People who teach with us but aren't listed on the org page
 EXTRA_PERSON_IDS: list[int] = []
@@ -27,6 +27,8 @@ COURSE_TYPES = {"S", "V", "Ü"}
 EXCLUDE_TITLE_PREFIXES = ("AG Seminar",)
 # eKVV course ids (vd?id=…) to leave out by hand
 EXCLUDE_COURSE_IDS: set[int] = set()
+
+TEAM_EMAILS = team_emails()
 
 LABELS = {
     "de": {
@@ -147,10 +149,12 @@ def contact_card(p: Person, lang: str, anchor: str) -> str:
                     <img alt="{name} (Photo)" class="ubf-picture__img ubf-js-loaded" draggable="false" src="{escape(p.photo)}"/>
                 </figure>
             </div>""" if p.photo else ""
+    # Only group members have an address (from team.yaml); PEVZ addresses aren't scraped, and external lecturers keep the PEVZ button
+    email = TEAM_EMAILS.get(p.id, "")
     mail = f"""
             <p class="ubf-contact__mail">
-                <a class="ubf-contact__link" href="{obfuscate('mailto:' + p.email)}">{obfuscate(p.email)}</a>
-            </p>""" if p.email else ""
+                <a class="ubf-contact__link" href="{obfuscate('mailto:' + email)}">{obfuscate(email)}</a>
+            </p>""" if email else ""
     rows = []
     if p.phone:
         rows.append((L["phone"], f'<a href="tel:{escape(p.phone)}" target="_blank">{escape(p.phone)}</a>'))
@@ -168,7 +172,7 @@ def contact_card(p: Person, lang: str, anchor: str) -> str:
             <div class="ubf-contact__info">
                 <h3 class="ubf-contact__title">{name}</h3>{img}
                 <div class="ubf-contact__role">
-                    <role>{p.role[lang]}</role>
+                    <role>{p.role}</role>
                 </div>{mail}
                 <dl class="ubf-contact__details ubf-ugc__dl--compact">{details}
                 </dl>

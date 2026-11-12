@@ -1,6 +1,7 @@
 # Team page content. One entry per person, in display order within each section.
 #
-# pevz:   PEVZ personId. If set, email / phone / room are taken from PEVZ and stay current automatically.
+# email:  always set here; PEVZ protects addresses against harvesting, so they are never scraped
+# pevz:   PEVZ personId. If set, phone / room are taken from PEVZ and stay current automatically.
 #         Anything you set here overrides PEVZ, so only fill in what PEVZ lacks or gets wrong.
 # photo:  path of the image on www.uni-bielefeld.de (upload it in the CMS, copy the path)
 # links:  orcid, scholar, linkedin, openreview, researchgate (all optional)
@@ -10,6 +11,7 @@
 head:  # Leitung / Head of Group
   - name: Prof. Dr. rer. nat. Klaus Neumann
     pevz: 26109209
+    email: klaus.neumann@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Klaus-Neumann.jpg
     links:
       orcid: https://orcid.org/0009-0008-7221-0441
@@ -20,6 +22,7 @@ head:  # Leitung / Head of Group
 postdocs:  # Postdoktorand:innen / Senior Researchers
   - name: Dr. Hanno Meyer zu Theenhausen
     pevz: 25701790
+    email: hmeyer_zu_theenhaus@uni-bielefeld.de
     photo: /__uuid/ea9c33b8-b3d5-4e10-aabb-9c8946fbcdbb/Hanno-Meyer-zu-Theenhausen.jpg
     links:
       linkedin: https://www.linkedin.com/in/hanno-meyer-zu-theenhausen-b61181164/
@@ -27,11 +30,13 @@ postdocs:  # Postdoktorand:innen / Senior Researchers
 admin:  # Teamassistent / Administration
   - name: Max Gehle
     pevz: 493149255
+    email: max.gehle@uni-bielefeld.de
     photo: /__uuid/8d79609a-cee6-4e84-b110-e941abee1015/Max-Gehle.jpg
 
 staff:  # Wissenschaftliche Mitarbeiter:innen / Staff
   - name: Lara Bergmann
     pevz: 373183361
+    email: lara.bergmann@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Lara-Bergmann.jpg
     links:
       orcid: https://orcid.org/0009-0005-0544-2291
@@ -39,20 +44,24 @@ staff:  # Wissenschaftliche Mitarbeiter:innen / Staff
       linkedin: https://www.linkedin.com/in/lara-bergmann-668b00195/
   - name: Marco Grabowski
     pevz: 57553456
+    email: marco.grabowski@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Marco-Grabowski.jpg
     links:
       orcid: https://orcid.org/0009-0002-8166-189X
       linkedin: https://www.linkedin.com/in/marco-grabowski-28a360226/
   - name: Thomas Günther
     pevz: 467752952
+    email: thomas.guenther@uni-bielefeld.de
   - name: Philipp Hartmann
     pevz: 467764114
+    email: philipp.hartmann@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Philipp-Hartmann.jpg
     links:
       orcid: https://orcid.org/0009-0004-0219-8150
       linkedin: https://www.linkedin.com/in/philipp-hartmann-3111b7254/
   - name: Seung Jung Jin
     pevz: 722624572
+    email: seung.jin@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Seung-Jung-Jin.jpg
     phone: "+49 521 106-12226"
     links:
@@ -61,26 +70,31 @@ staff:  # Wissenschaftliche Mitarbeiter:innen / Staff
       linkedin: https://www.linkedin.com/in/seung-jung-jin/
   - name: József Lurvig
     pevz: 287975422
+    email: jozsef.lurvig@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Jozsef-Lurvig.jpg
     links:
       linkedin: https://www.linkedin.com/in/josef-lurvig/
   - name: Jannick Stranghöner
     pevz: 472547520
+    email: jannick.stranghoener@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Jannick-Stranghoner.jpg
     links:
       scholar: https://scholar.google.de/citations?user=sSogHgYAAAAJ
       linkedin: https://www.linkedin.com/in/jannick-stranghöner-8962a3324/
   - name: Dmitrii Trofimov
     pevz: 722632463
+    email: dmitrii.trofimov@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Dmitrii-Trofimov.jpg
     phone: "+49 521 106-12207"
     links:
       linkedin: https://www.linkedin.com/in/dmitrii-trofimov-098455212/
   - name: Lisa-Marie Weigelt
     pevz: 498261249
+    email: lisa-marie.weigelt@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Lisa-Weigelt.jpg
   - name: Jonas Zilke
     pevz: 532481714
+    email: jonas.zilke@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Jonas-Zilke.jpg
     links:
       linkedin: https://www.linkedin.com/in/jonas-zilke-1736bb2b3/
@@ -88,7 +102,7 @@ staff:  # Wissenschaftliche Mitarbeiter:innen / Staff
 joint:  # Kooperative Promotionen / Joint doctorates
   - name: Julien Marteen Akay
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Julien-Marteen-Akay.jpg
-    email: "julien.akay@hsbi.de"
+    email: julien.akay@hsbi.de
     phone: "+49 521 106-70931"
     links:
       orcid: https://orcid.org/0009-0003-7639-5627
@@ -99,14 +113,14 @@ joint:  # Kooperative Promotionen / Joint doctorates
       researchgate: https://www.researchgate.net/profile/Krithiga-Ramesh
   - name: Ramakrishnan Subramanian
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Subramanian-Ramakrishnan.jpg
-    email: "ramakrishnan.subramanian@th-owl.de"
+    email: ramakrishnan.subramanian@th-owl.de
     phone: "+49 526 170-25156"
     links:
       orcid: https://orcid.org/0009-0004-1538-3224
       linkedin: https://www.linkedin.com/in/ram8kris/
   - name: Stella Wermuth
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Stella-Wermuth.jpg
-    email: "stella.wermuth@hsbi.de"
+    email: stella.wermuth@hsbi.de
     phone: "+49 521 106-70560"
     links:
       orcid: https://orcid.org/0009-0001-3498-527X
@@ -118,7 +132,7 @@ joint:  # Kooperative Promotionen / Joint doctorates
 
 assistants:  # Wissenschaftliche Hilfskräfte / Research assistants
   - name: Cedric Noah Grothues
-    email: "cedric.grothues@uni-bielefeld.de"
+    email: cedric.grothues@uni-bielefeld.de
     phone: "+49 521 106-12222"
     room: CITEC 1-218
 

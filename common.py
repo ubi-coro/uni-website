@@ -5,10 +5,12 @@ import re
 import threading
 import time
 from dataclasses import dataclass
+from pathlib import Path
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 import truststore
+import yaml
 from bs4 import BeautifulSoup
 
 # Use the OS trust store, like curl and browsers do
@@ -53,14 +55,14 @@ def inner_html(node) -> str:
 
 @dataclass
 class Person:
+    """Contact details from PEVZ. E-mail addresses are deliberately not scraped (PEVZ protects them against harvesting); they come from team.yaml."""
     id: int
     name: str
     photo: str
-    email: str
     phone: str
     phone_sekr: str
     office: str
-    role: dict[str, str]
+    role: str
 
 
 def org_members(org_id: int = ORG_ID) -> list[int]:
@@ -69,20 +71,16 @@ def org_members(org_id: int = ORG_ID) -> list[int]:
 
 
 def contact_block(soup: BeautifulSoup):
-    """The contact entry for our group, else the first one that has an e-mail address."""
+    """The contact entry for our group, else the first one with contact details."""
     blocks = soup.select("div.person_kontakt")
     for block in blocks:
         if "Arbeitsgruppen / Kollaborative Robotik" in text(block.select_one("h3")):
             return block
-    return next((b for b in blocks if b.select_one("a.person_email")), blocks[0] if blocks else None)
-
-
-EMAIL = re.compile(r"[\w.+-]+@[\w-]+(\.[\w-]+)+")
+    return next((b for b in blocks if b.select_one("dl.kontakt dt")), blocks[0] if blocks else None)
 
 
 def load_person(person_id: int) -> Person:
-    soups = {lang: fetch(f"/pers_publ/publ/PersonDetail.jsp?personId={person_id}" + ("&lang=EN" if lang == "en" else "")) for lang in LANGS}
-    soup = soups["de"]
+    soup = fetch(f"/pers_publ/publ/PersonDetail.jsp?personId={person_id}")
     block = contact_block(soup)
     details = {}
     if block:
@@ -93,21 +91,26 @@ def load_person(person_id: int) -> Person:
                 extra.decompose()
             details[text(dt)] = text(dd).rstrip(" −")
     photo = soup.select_one("img.foto")
-    roles = {}
-    for lang, s in soups.items():
-        b = contact_block(s)
-        roles[lang] = inner_html(b.select_one("dl.aufgabenbeschreibung dd")) if b else ""
     return Person(
         id=person_id,
         name=re.sub(r"^(Herr|Frau)\s+", "", text(soup.select_one("h1"))),
         photo=photo.parent["href"] if photo and photo.parent.name == "a" else (photo["src"] if photo else ""),
-        # When PEVZ withholds addresses (its anti-harvesting limit), this cell holds a login notice instead; never render that
-        email=details.get("E-Mail", "") if EMAIL.fullmatch(details.get("E-Mail", "")) else "",
         phone=details.get("Telefon", ""),
         phone_sekr=details.get("Telefon Sekretariat", ""),
         office=details.get("Büro", ""),
-        role=roles,
+        role=inner_html(block.select_one("dl.aufgabenbeschreibung dd")) if block else "",
     )
+
+
+# --- team.yaml ------------------------------------------------------------
+
+def load_team() -> dict[str, list[dict]]:
+    return yaml.safe_load((Path(__file__).parent / "team.yaml").read_text(encoding="utf-8")) or {}
+
+
+def team_emails() -> dict[int, str]:
+    """PEVZ id -> e-mail address, for everyone in team.yaml who has both."""
+    return {e["pevz"]: e["email"] for people in load_team().values() for e in people if e.get("pevz") and e.get("email")}
 
 
 # --- Rendering ------------------------------------------------------------
