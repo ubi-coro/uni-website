@@ -2,7 +2,10 @@
 
 import hashlib
 import re
+import threading
+import time
 from dataclasses import dataclass
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 import truststore
@@ -20,10 +23,22 @@ ORG_ID = 429911235
 
 # --- Fetching -------------------------------------------------------------
 
+# Caps concurrent requests across all worker threads, to stay under eKVV's rate limit
+_in_flight = threading.Semaphore(3)
+RETRIES = 4
+
 def fetch(path: str) -> BeautifulSoup:
     req = Request(EKVV + path, headers={"User-Agent": "page-generator (AG Kollaborative Robotik)"})
-    with urlopen(req, timeout=30) as resp:
-        return BeautifulSoup(resp.read().decode("utf-8"), "html.parser")
+    for attempt in range(RETRIES + 1):
+        try:
+            with _in_flight, urlopen(req, timeout=30) as resp:
+                return BeautifulSoup(resp.read().decode("utf-8"), "html.parser")
+        except HTTPError as e:
+            # eKVV rate-limits (429), noticeably harder from GitHub's runners than from a desktop
+            if attempt == RETRIES or (e.code != 429 and e.code < 500):
+                raise
+            retry_after = e.headers.get("Retry-After", "")
+            time.sleep(int(retry_after) if retry_after.isdigit() else 2 ** (attempt + 1))
 
 
 def text(node) -> str:
