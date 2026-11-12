@@ -5,10 +5,12 @@ Generated content for the Kollaborative Robotik pages on uni-bielefeld.de.
 A GitHub Action (`.github/workflows/pages.yml`) runs the generators nightly and on every push, and publishes the output to https://ubi-coro.github.io/uni-website/. The CMS pulls each file in server-side with an RXML block containing only an insert tag, e.g.:
 
 ```html
-<insert href="https://ubi-coro.github.io/uni-website/teaching_de.html" quote="none"/>
+<insert cached-href="https://ubi-coro.github.io/uni-website/teaching_de.html" fetch-interval="15 min" quote="none"/>
 ```
 
-A failed or empty build fails the workflow and nothing is deployed, so the live pages keep the last good version. If a fetch fails on the CMS side, Roxen inserts nothing rather than breaking the page. To refresh right away, run the workflow manually (Actions → Build pages → Run workflow).
+Use `cached-href`, not `href`. With plain `<insert href>`, Roxen fetches during page rendering; when a fetch fails it inserts nothing and then serves that empty page from its RAM cache, so content vanished at random. `cached-href` keeps a copy in Roxen's database, refreshed in the background every `fetch-interval`, and pages always render from that copy.
+
+A failed or empty build fails the workflow and nothing is deployed, so the live pages keep the last good version. Changes reach the live pages within about 15 minutes of a successful deploy (the `fetch-interval`). To rebuild right away, run the workflow manually (Actions → Build pages → Run workflow).
 
 ## Teaching
 
@@ -24,7 +26,7 @@ Tuning: the constants at the top of the script — `EXTRA_PERSON_IDS` for people
 
 - `team_<lang>_<section>.html`, e.g. `team_de_staff.html`, `team_en_joint.html`
 
-To change the team, edit `team.yaml` (the GitHub web editor is fine); the site updates about a minute after the commit. People with a `pevz` id get phone and room from PEVZ, so those stay current without edits; set them in `team.yaml` only where PEVZ lacks them or is wrong. E-mail addresses always live in `team.yaml`: PEVZ protects addresses against harvesting, so the generators never scrape them. The teaching page takes lecturers' addresses from `team.yaml` too; external lecturers get none, only the PEVZ button. Anyone on the PEVZ org page who is missing from `team.yaml` shows up as a warning on the workflow run. Optional per-person extras: `intro` (a short self-introduction, `{de: …, en: …}`; a single language is shown on both pages) and `supervisor` (partner-institution supervisor for joint doctorates). To change the card design, edit the template.
+To change the team, edit `team.yaml` (the GitHub web editor is fine); the site updates within about 15 minutes of the commit. People with a `pevz` id get phone and room from PEVZ, so those stay current without edits; set them in `team.yaml` only where PEVZ lacks them or is wrong. E-mail addresses always live in `team.yaml`: PEVZ protects addresses against harvesting, so the generators never scrape them. The teaching page takes lecturers' addresses from `team.yaml` too; external lecturers get none, only the PEVZ button. Anyone on the PEVZ org page who is missing from `team.yaml` shows up as a warning on the workflow run. Optional per-person extras: `intro` (a short self-introduction, `{de: …, en: …}`; a single language is shown on both pages) and `supervisor` (partner-institution supervisor for joint doctorates). To change the card design, edit the template.
 
 Adding a section means adding it to `team.yaml` and creating a matching CMS section with an RXML block that inserts its file.
 
