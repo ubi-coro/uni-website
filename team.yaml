@@ -8,6 +8,7 @@
 # supervisor: name + address lines of the supervisor at the partner institution (joint doctorates)
 #
 # Section headings live in the CMS; each section has one RXML block that inserts team_<lang>_<section>.html.
+# Research assistants (Wissenschaftliche Hilfskräfte) are a native CMS address block, not generated.
 
 head:  # Leitung / Head of Group
   - name: Prof. Dr. rer. nat. Klaus Neumann
@@ -158,10 +159,3 @@ joint:  # Kooperative Promotionen / Joint doctorates
         - Kurt-Schumacher-Str. 6
         - 33615 Bielefeld
         - Gebäude D
-
-assistants:  # Wissenschaftliche Hilfskräfte / Research assistants
-  - name: Cedric Noah Grothues
-    email: cedric.grothues@uni-bielefeld.de
-    phone: "+49 521 106-12222"
-    room: CITEC 1-218
-
