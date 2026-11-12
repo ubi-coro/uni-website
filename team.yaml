@@ -149,13 +149,6 @@ joint:  # Kooperative Promotionen / Joint doctorates
         - 33619 Bielefeld
         - F 116
   - name: Sebastian Willke
-    photo: /__uuid/b0b9e924-5f12-4fb6-a99a-bb80c2051f16/Sebastian-Willke.jpg
+    photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Sebastian-Willke.jpg
     links:
       linkedin: https://www.linkedin.com/in/sebastian-willke-533941226/
-    supervisor:
-      name: Prof. Dr.-Ing. Wolfram Schenck
-      address:
-        - Hochschule Bielefeld
-        - Kurt-Schumacher-Str. 6
-        - 33615 Bielefeld
-        - Gebäude D
