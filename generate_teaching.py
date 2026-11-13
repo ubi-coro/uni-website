@@ -54,6 +54,7 @@ LABELS = {
 
 # --- Semesters ------------------------------------------------------------
 
+
 def semester_key(name: str) -> int:
     """'SoSe 2025' -> 4050, 'WiSe 2025/2026' -> 4051."""
     year = int(re.search(r"\d{4}", name).group())
@@ -68,6 +69,7 @@ def semester_label(name: str, lang: str) -> str:
 
 
 # --- Data -----------------------------------------------------------------
+
 
 @dataclass
 class Course:
@@ -97,13 +99,15 @@ def courses_of(person_id: int) -> list[Course]:
             link = row.select_one("td.thema a[href*='vd']")
             if not link:
                 continue
-            courses.append(Course(
-                id=int(re.search(r"[?&]id=(\d+)", link["href"]).group(1)),
-                number=text(row.select_one("td.belegnr")),
-                title=text(link),
-                type=text(row.select_one("td.art")),
-                semester=semester,
-            ))
+            courses.append(
+                Course(
+                    id=int(re.search(r"[?&]id=(\d+)", link["href"]).group(1)),
+                    number=text(row.select_one("td.belegnr")),
+                    title=text(link),
+                    type=text(row.select_one("td.art")),
+                    semester=semester,
+                )
+            )
     return courses
 
 
@@ -129,6 +133,7 @@ def load_details(course: Course) -> Course:
 
 # --- Rendering ------------------------------------------------------------
 
+
 def text_block(html: str, anchor: str) -> str:
     return f"""<div class="ubf-contentBlock ubf-contentBlock--text">
     <a class="ubf-anchor" id="{anchor}"></a>
@@ -143,18 +148,26 @@ def text_block(html: str, anchor: str) -> str:
 def contact_card(p: Person, lang: str, anchor: str) -> str:
     L = LABELS[lang]
     name = escape(p.name)
-    img = f"""
+    img = (
+        f"""
             <div class="ubf-contact__img">
                 <figure class="ubf-contact__figure" data-type="image">
                     <img alt="{name} (Photo)" class="ubf-picture__img ubf-js-loaded" draggable="false" src="{escape(p.photo)}"/>
                 </figure>
-            </div>""" if p.photo else ""
+            </div>"""
+        if p.photo
+        else ""
+    )
     # Only group members have an address (from team.yaml); PEVZ addresses aren't scraped, and external lecturers keep the PEVZ button
     email = TEAM_EMAILS.get(p.id, "")
-    mail = f"""
+    mail = (
+        f"""
             <p class="ubf-contact__mail">
-                <a class="ubf-contact__link" href="{obfuscate('mailto:' + email)}">{obfuscate(email)}</a>
-            </p>""" if email else ""
+                <a class="ubf-contact__link" href="{obfuscate("mailto:" + email)}">{obfuscate(email)}</a>
+            </p>"""
+        if email
+        else ""
+    )
     rows = []
     if p.phone:
         rows.append((L["phone"], f'<a href="tel:{escape(p.phone)}" target="_blank">{escape(p.phone)}</a>'))
@@ -162,9 +175,12 @@ def contact_card(p: Person, lang: str, anchor: str) -> str:
         rows.append((L["phone_sekr"], f'<a href="tel:{escape(p.phone_sekr)}" target="_blank">{escape(p.phone_sekr)}</a>'))
     if p.office:
         rows.append((L["office"], escape(p.office)))
-    details = "".join(f"""
+    details = "".join(
+        f"""
                 <dt class="ubf-contact__detailName">{k}</dt>
-                <dd class="ubf-contact__detailValue">{v}</dd>""" for k, v in rows)
+                <dd class="ubf-contact__detailValue">{v}</dd>"""
+        for k, v in rows
+    )
     return f"""<div class="ubf-contentBlock ubf-contentBlock--contact ">
     <a class="ubf-anchor" id="{anchor}"></a>
     <div class="ubf-contact">
@@ -241,6 +257,7 @@ def render(semesters: dict[str, list[Course]], people: dict[int, Person], lang: 
 
 
 # --- Main -----------------------------------------------------------------
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])

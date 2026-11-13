@@ -29,6 +29,7 @@ ORG_ID = 429911235
 _in_flight = threading.Semaphore(3)
 RETRIES = 4
 
+
 def fetch(path: str) -> BeautifulSoup:
     req = Request(EKVV + path, headers={"User-Agent": "page-generator (AG Kollaborative Robotik)"})
     for attempt in range(RETRIES + 1):
@@ -53,9 +54,11 @@ def inner_html(node) -> str:
 
 # --- PEVZ -----------------------------------------------------------------
 
+
 @dataclass
 class Person:
     """Contact details from PEVZ. E-mail addresses are deliberately not scraped (PEVZ protects them against harvesting); they come from team.yaml."""
+
     id: int
     name: str
     photo: str
@@ -104,6 +107,7 @@ def load_person(person_id: int) -> Person:
 
 # --- team.yaml ------------------------------------------------------------
 
+
 def load_team() -> dict[str, list[dict]]:
     return yaml.safe_load((Path(__file__).parent / "team.yaml").read_text(encoding="utf-8")) or {}
 
@@ -114,6 +118,7 @@ def team_emails() -> dict[int, str]:
 
 
 # --- Rendering ------------------------------------------------------------
+
 
 def comp_id(*key) -> str:
     """Deterministic id in the CMS's comp_XXXXXXXXXXXX_XXXXXXXXXX_XXXX format."""
