@@ -29,7 +29,7 @@ postdocs:  # Postdoktorand:innen / Senior Researchers
   - name: Dr. Hanno Meyer zu Theenhausen
     pevz: 25701790
     email: hmeyer_zu_theenhaus@uni-bielefeld.de
-    photo: /__uuid/ea9c33b8-b3d5-4e10-aabb-9c8946fbcdbb/Hanno-Meyer-zu-Theenhausen.jpg
+    photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Hanno-Meyer-zu-Theenhausen.jpg
     links:
       linkedin: https://www.linkedin.com/in/hanno-meyer-zu-theenhausen-b61181164/
 
@@ -37,7 +37,7 @@ admin:  # Teamassistent / Administration
   - name: Max Gehle
     pevz: 493149255
     email: max.gehle@uni-bielefeld.de
-    photo: /__uuid/8d79609a-cee6-4e84-b110-e941abee1015/Max-Gehle.jpg
+    photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Max-Gehle.jpg
 
 staff:  # Wissenschaftliche Mitarbeiter:innen / Staff
   - name: Lara Bergmann
@@ -48,6 +48,9 @@ staff:  # Wissenschaftliche Mitarbeiter:innen / Staff
       orcid: https://orcid.org/0009-0005-0544-2291
       scholar: https://scholar.google.de/citations?user=1oUpHsIAAAAJ
       linkedin: https://www.linkedin.com/in/lara-bergmann-668b00195/
+    intro:
+      de: "Ich beschäftige mich mit dem Einsatz industrieller magnetischer Levitationssysteme (MagLev-Systeme) für die Manipulation von Objekten.\nIm Rahmen meiner Forschung untersuche ich, wie industrielle magnetische Levitationssysteme (MagLev Systeme) über den Transport hinaus für die Manipulation von Objekten eingesetzt werden können. Bisher werden solche Systeme in der Industrie hauptsächlich für Transportaufgaben innerhalb von Maschinen genutzt, während die Manipulation häufig zusätzliche Handhabungstechnik, beispielsweise Industrieroboter, erfordert.\nEin Schwerpunkt meiner Forschung liegt auf der Entwicklung sogenannter MagBots. Dabei handelt es sich um rekonfigurierbare Parallelkinematiken, die mehrere MagLev Mover mechanisch koppeln und das System um verschiedene Manipulationsfähigkeiten, wie beispielsweise das Greifen von Objekten, erweitern. Dadurch kann der Bedarf an zusätzlicher Handhabungstechnik reduziert werden. Darüber hinaus beschäftige ich mich mit der Bewegungsplanung für MagLev Mover und MagBots, insbesondere bei kooperativen Manipulationsaufgaben."
+      en: "My research focuses on the use of industrial magnetic levitation systems (MagLev systems) for the manipulation of objects.\nAs part of my research, I am investigating how industrial magnetic levitation systems (MagLev systems) can be used for the manipulation of objects beyond mere transport. To date, such systems have mainly been used in industry for transport tasks within machines, whilst manipulation often requires additional handling technology, such as industrial robots.\nOne focus of my research is the development of so-called MagBots. These are reconfigurable parallel kinematic systems that mechanically couple several MagLev movers and extend the system’s capabilities to include various manipulation functions, such as gripping objects. This reduces the need for additional handling technology. Furthermore, I am working on motion planning for MagLev movers and MagBots, particularly for cooperative manipulation tasks."
   - name: Marco Grabowski
     pevz: 57553456
     email: marco.grabowski@uni-bielefeld.de
