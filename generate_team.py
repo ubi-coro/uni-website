@@ -10,12 +10,13 @@ Writes one file per section and language (team_de_staff.html, …), because the 
 """
 
 import argparse
+import re
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
-from markupsafe import Markup
+from markupsafe import Markup, escape
 
 from common import LANGS, comp_id, load_person, load_team, obfuscate, org_members
 
@@ -53,6 +54,12 @@ def merge(entry: dict, pevz) -> dict:
     }
 
 
+def paragraphs(text: str) -> Markup:
+    """Blank lines separate paragraphs, single line breaks become <br/>; the text itself stays escaped."""
+    blocks = [b.strip() for b in re.split(r"\n\s*\n", text.strip()) if b.strip()]
+    return Markup("\n").join(Markup("<p>%s</p>") % Markup("<br/>\n").join(escape(line.strip()) for line in b.splitlines()) for b in blocks)
+
+
 def localize(intro, lang: str) -> str:
     """intro is either one string for both pages or {de: …, en: …}; a missing language falls back to the other."""
     if not intro or isinstance(intro, str):
@@ -81,6 +88,7 @@ def main():
 
     env = Environment(loader=FileSystemLoader(HERE / "templates"), autoescape=True, keep_trailing_newline=True)
     env.filters["obfuscate"] = lambda s: Markup(obfuscate(s))
+    env.filters["paragraphs"] = paragraphs
     template = env.get_template("team_section.html")
 
     args.out_dir.mkdir(parents=True, exist_ok=True)

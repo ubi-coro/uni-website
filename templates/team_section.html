@@ -43,7 +43,7 @@
                         {%- endif %}
                     </dl>
                     {%- if p.intro %}
-                    <p>{{ p.intro }}</p>
+                    {{ p.intro | paragraphs }}
                     {%- endif %}
                     {%- if p.supervisor %}
                     <strong>{{ p.supervisor.name }}</strong>

@@ -5,7 +5,8 @@
 #         Anything you set here overrides PEVZ, so only fill in what PEVZ lacks or gets wrong.
 # photo:  path of the image on www.uni-bielefeld.de (upload it in the CMS, copy the path)
 # links:  orcid, scholar, linkedin, researchgate, openreview (all optional)
-# intro:  short self-introduction, as {de: …, en: …}; one language alone is used on both pages
+# intro:  short self-introduction, as {de: …, en: …}; one language alone is used on both pages.
+#         For line breaks write `de: |` and continue on indented lines; a blank line starts a new paragraph.
 # supervisor: name + address lines of the supervisor at the partner institution (joint doctorates)
 #
 # Section headings live in the CMS; each section has one RXML block that inserts team_<lang>_<section>.html.
