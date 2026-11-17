@@ -84,12 +84,12 @@ staff: # Wissenschaftliche Mitarbeiter:innen / Staff
   - name: József Lurvig
     pevz: 287975422
     email: jozsef.lurvig@uni-bielefeld.de
-    intro:
-      de: "Ich arbeite im enableATO-Projekt an der Umfelderkennung für autonom fahrende Schienenfahrzeuge. Mit einem selbst aufgebauten Sensorfahrzeug nehme ich reale Daten auf und verbinde sie mit Simulation: Per Gaussian Splatting rekonstruierte reale Szenen fließen in die Simulatoren ein, damit synthetische Trainingsdaten der Wirklichkeit möglichst nahekommen."
-      en: "I work in the enableATO project on environment perception for autonomous rail vehicles. I record real-world data with a sensor vehicle we built ourselves and combine it with simulation: real scenes reconstructed with Gaussian Splatting are brought into the simulators, so that synthetic training data comes as close to reality as possible."
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Jozsef-Lurvig.jpg
     links:
       linkedin: https://www.linkedin.com/in/josef-lurvig/
+    intro:
+      de: "Ich arbeite im enableATO-Projekt an der Umfelderkennung für autonom fahrende Schienenfahrzeuge. Mit einem selbst aufgebauten Sensorfahrzeug nehme ich reale Daten auf und verbinde sie mit Simulation: Per Gaussian Splatting rekonstruierte reale Szenen fließen in die Simulatoren ein, damit synthetische Trainingsdaten der Wirklichkeit möglichst nahekommen."
+      en: "I work in the enableATO project on environment perception for autonomous rail vehicles. I record real-world data with a sensor vehicle we built ourselves and combine it with simulation: real scenes reconstructed with Gaussian Splatting are brought into the simulators, so that synthetic training data comes as close to reality as possible."
   - name: Jannick Stranghöner
     pevz: 472547520
     email: jannick.stranghoener@uni-bielefeld.de
@@ -114,6 +114,9 @@ staff: # Wissenschaftliche Mitarbeiter:innen / Staff
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Jonas-Zilke.jpg
     links:
       linkedin: https://www.linkedin.com/in/jonas-zilke-1736bb2b3/
+    intro:
+      de: "Der Schwerpunkt meiner Forschung liegt auf dem Greifen und der bimanualen Manipulation durch Roboter, wobei ich einen besonderen Fokus auf industrielle Anwendungen lege.\nIch untersuche, wie Roboter Objekte autonom greifen, handhaben und neu ausrichten können, insb. bei Aufgaben, die den koordinierten Einsatz zweier Roboterarme erfordern. Ein zentraler Aspekt meiner Arbeit ist der Einsatz physikbasierter Simulationen zur Entwicklung, zum Training und zur Bewertung von Greif- und Handhabungsstrategien. Darüber hinaus konzentriere ich mich darauf, die Lücke zwischen Simulation und Realität (Sim-to-Real) zu schließen, um diese Ansätze auf reale Robotersysteme zu übertragen."
+      en: "My research focuses on robotic grasping and bimanual manipulation, with a particular emphasis on industrial applications.\nI investigate how robots can autonomously grasp, manipulate, and reorient objects, especially in tasks that require the coordinated use of two robotic arms. A key aspect of my work is the use of physics-based simulation to develop, train, and evaluate grasping and manipulation strategies. Furthermore, I focus on bridging the gap between simulation and reality (sim-to-real) to transfer these approaches to real robotic systems."
 
 joint: # Kooperative Promotionen / Joint doctorates
   - name: Julien Marteen Akay
