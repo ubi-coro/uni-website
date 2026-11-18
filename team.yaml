@@ -108,6 +108,9 @@ staff: # Wissenschaftliche Mitarbeiter:innen / Staff
     pevz: 498261249
     email: lisa-marie.weigelt@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Lisa-Weigelt.jpg
+    intro:
+      de: Ich beschäftige mich mit dem automatischen Entgraten von Metall-Werkstücken mithilfe von Reinforcement Learning auf Roboter-Armen. Dabei liegt mein Fokus auf High-Mix-Low-Volume Werkstücken von Kleinen und Mittleren Unternehmen, für die die bisherigen Entgrat-Lösungen aufgrund von Kosten oder Aufwand nicht gut geeignet sind. Außerdem interessiere ich mich für 3D-Druck und -Design für Robotik, von Individualisierungen bestehender Roboter wie spezielle Greiferfinger bis hin zu 3D-gedruckten Robotern, die eine günstigere Alternative zu modernen Roboterarmen bieten.
+      en: I work on the automatic deburring of metal workpieces with Reinforcement Learning on robot arms. My focus is on High-Mix-Low-Volume workpieces from Small and Medium Enterprises, for whose the existing solutions are less suitable because of cost or effort. Additionally, I’m interested in 3D design and 3D printing for robotics, from individualizing existing robots like specialized gripper fingers to 3D-printed robots that present a more affordable alternative to modern robot arms.
   - name: Jonas Zilke
     pevz: 532481714
     email: jonas.zilke@uni-bielefeld.de
