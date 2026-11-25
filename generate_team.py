@@ -7,7 +7,7 @@
 Run with: uv run generate_team.py [--out-dir DIR] [--ext html]
 
 Writes, per language:
-- team_<lang>_grid.html: everyone as a photo grid, ordered by section, then by surname; hovering or tapping a photo shows contact details and a link to the profile page
+- team_<lang>_grid.html: everyone as a photo grid (up to 3 columns), ordered by section, then by surname; hovering or tapping a photo shows contact details and a link to the profile page
 - team_<lang>_profiles.html: every profile on one page, CSS :target shows the one named in the URL hash (PROFILE_PAGE#slug)
 - team_<lang>_<section>.html: the older per-section contact cards, kept so the CMS can switch back
 
@@ -87,9 +87,18 @@ def slug(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", fold(plain_name(name))).strip("-")
 
 
+def split_name(entry: dict) -> tuple[str, str]:
+    """(everything before the surname, including titles; the surname). The surname is the last word, or `sortname` for names like "Meyer zu Theenhausen"."""
+    name = entry["name"]
+    surname = entry.get("sortname") or name.split()[-1]
+    if not name.endswith(surname):
+        sys.exit(f"{name}: sortname {surname!r} isn't the end of the name")
+    return name[: -len(surname)].strip(), surname
+
+
 def sort_key(entry: dict) -> str:
-    """Surname first, then the full name. The surname defaults to the last word; `sortname` sets it for names like "Meyer zu Theenhausen"."""
-    return fold(f"{entry.get('sortname') or plain_name(entry['name']).split()[-1]} {plain_name(entry['name'])}")
+    """Surname first, then the full name."""
+    return fold(f"{split_name(entry)[1]} {plain_name(entry['name'])}")
 
 
 def merge(entry: dict, pevz) -> dict:
@@ -107,6 +116,8 @@ def merge(entry: dict, pevz) -> dict:
         "intro": entry.get("intro"),
         "position": entry.get("position"),
         "slug": slug(entry["name"]),
+        "given_name": split_name(entry)[0],
+        "surname": split_name(entry)[1],
     }
 
 
