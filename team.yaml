@@ -8,8 +8,10 @@
 # intro:  short self-introduction, as {de: …, en: …}; one language alone is used on both pages.
 #         For line breaks write `de: |` and continue on indented lines; a blank line starts a new paragraph.
 # supervisor: name + address lines of the supervisor at the partner institution (joint doctorates)
+# position: overrides the section's position label (POSITIONS in generate_team.py), as a string or {de: …, en: …}
+# sortname: the surname the grid sorts by, where it isn't the last word of the name (e.g. "Meyer zu Theenhausen")
 #
-# Section headings live in the CMS; each section has one RXML block that inserts team_<lang>_<section>.html.
+# The photo grid (team_<lang>_grid.html) lists the sections in this order and sorts each by surname; every person gets a profile on the shared profile page (team_<lang>_profiles.html). The older per-section cards (team_<lang>_<section>.html) are still generated; there the section headings live in the CMS, and people appear in the order listed here.
 # Research assistants (Wissenschaftliche Hilfskräfte) are a native CMS address block, not generated.
 
 head: # Leitung / Head of Group
@@ -28,6 +30,7 @@ head: # Leitung / Head of Group
 
 postdocs: # Postdoktorand:innen / Senior Researchers
   - name: Dr. Hanno Meyer zu Theenhausen
+    sortname: Meyer zu Theenhausen
     pevz: 25701790
     email: hmeyer_zu_theenhaus@uni-bielefeld.de
     photo: /fakultaeten/technische-fakultaet/arbeitsgruppen/kollaborative-robotik/team/Hanno-Meyer-zu-Theenhausen.jpg

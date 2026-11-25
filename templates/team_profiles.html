@@ -1,0 +1,129 @@
+{#- Every profile on one CMS page. Each is a section whose id is the person's slug; CSS :target shows the one named in the URL hash (…/profil/#lara-bergmann) and hides the rest, so the page needs no script and new people need no CMS work. -#}
+{%- import "_icons.html" as icon -%}
+<div class="kr-profiles">
+<style>
+.kr-profiles .kr-profile {
+    display: none;
+    /* The site header is fixed and 5.5rem tall (the site's rem is 10px) */
+    scroll-margin-top: 7rem;
+}
+.kr-profiles .kr-profile:target {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 1.5em 2.5em;
+    align-items: start;
+}
+.kr-profiles:has(.kr-profile:target) .kr-fallback {
+    display: none;
+}
+.kr-profiles .kr-profile__photo {
+    aspect-ratio: 1;
+    overflow: hidden;
+    margin: 0;
+    background: #f0f0f0;
+}
+.kr-profiles .kr-profile__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: 50% 20%;
+}
+.kr-profiles .kr-profile__position {
+    margin: 0 0 0.25em;
+    color: var(--colorTechnologyText, #47798c);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.kr-profiles .kr-profile__name {
+    margin-top: 0;
+}
+.kr-profiles .kr-profile__intro {
+    margin-top: 1.5em;
+}
+.kr-profiles .kr-profile__supervisor {
+    margin-top: 1.5em;
+}
+.kr-profiles .kr-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: 2em;
+    font-weight: 600;
+}
+.kr-profiles .kr-back .kr-icon {
+    width: 1.1em;
+    height: 1.1em;
+    transform: scaleX(-1);
+}
+@media (max-width: 40em) {
+    .kr-profiles .kr-profile:target {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .kr-profiles .kr-profile__photo {
+        max-width: 18em;
+    }
+}
+</style>
+<p class="kr-fallback">{{ L.no_profile }} <a href="{{ team_page }}">{{ L.back }}</a></p>
+{%- for p in people %}
+<section class="kr-profile" id="{{ p.slug }}" aria-labelledby="{{ p.slug }}-name">
+    <figure class="kr-profile__photo">
+        {#- ubf-js-loaded: the AsyncPicture script never processes inserted images, and the site hides them until it does #}
+        <img class="ubf-js-loaded" src="{{ p.photo }}" alt="{{ p.name }}" loading="lazy" draggable="false"/>
+    </figure>
+    <div class="kr-profile__body">
+        <p class="kr-profile__position">{{ p.position }}</p>
+        <h2 class="kr-profile__name" id="{{ p.slug }}-name">{{ p.name }}</h2>
+        {%- if p.email %}
+        <p class="ubf-contact__mail">
+            <a class="ubf-contact__link" href="{{ ('mailto:' ~ p.email) | obfuscate }}">{{ p.email | obfuscate }}</a>
+        </p>
+        {%- endif %}
+        <dl class="ubf-contact__details ubf-ugc__dl--compact">
+            {%- if p.phone %}
+            <dt class="ubf-contact__detailName">{{ L.phone }}</dt>
+            <dd class="ubf-contact__detailValue">
+                <a href="tel:{{ p.phone | replace(' ', '') }}">{{ p.phone }}</a>
+            </dd>
+            {%- endif %}
+            {%- if p.room %}
+            <dt class="ubf-contact__detailName">{{ L.room }}</dt>
+            <dd class="ubf-contact__detailValue">{{ p.room }}</dd>
+            {%- endif %}
+            {%- if p.links %}
+            <dt class="ubf-contact__detailName">{{ L.profiles }}</dt>
+            <dd class="ubf-contact__detailValue">
+                {%- for kind, url in p.links.items() %}
+                {%- if kind in icons %}
+                <a href="{{ url }}" target="_blank" rel="noopener" title="{{ icons[kind].title }}" style="text-decoration: none;"><img src="{{ icon_base }}/{{ icons[kind].file }}" alt="{{ icons[kind].title }}" width="24" height="24" style="vertical-align: middle; margin-right: 0.6rem;"/></a>
+                {%- else %}
+                <a href="{{ url }}" target="_blank" rel="noopener" style="vertical-align: middle; margin-right: 0.6rem;">{{ text_links[kind] }}</a>
+                {%- endif %}
+                {%- endfor %}
+            </dd>
+            {%- endif %}
+        </dl>
+        {%- if p.intro %}
+        <div class="kr-profile__intro">
+            {{ p.intro | paragraphs }}
+        </div>
+        {%- endif %}
+        {%- if p.supervisor %}
+        <div class="kr-profile__supervisor">
+            <h3>{{ L.supervisor }}</h3>
+            <p>
+                <strong>{{ p.supervisor.name }}</strong>
+                {%- for line in p.supervisor.address %}
+                <br/>{{ line }}
+                {%- endfor %}
+            </p>
+        </div>
+        {%- endif %}
+        <a class="kr-back" href="{{ team_page }}">{{ icon.arrow() }}{{ L.back }}</a>
+    </div>
+</section>
+{%- endfor %}
+</div>

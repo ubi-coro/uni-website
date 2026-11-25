@@ -1,0 +1,186 @@
+{#- The whole team as a photo grid (at most 4 columns). Hovering a photo, tapping it, or tabbing into it fades in the accent overlay with contact details and a link to the person's profile. -#}
+{%- import "_icons.html" as icon -%}
+<div class="kr-team">
+<style>
+.kr-team .kr-grid {
+    --kr-gap: 1em;
+    display: grid;
+    gap: var(--kr-gap);
+    /* Up to 4 columns, fewer once tiles would shrink below 9.5em (152px: two columns on a 320px phone). Sizes are in em, not rem: the site sets rem to 10px */
+    grid-template-columns: repeat(auto-fill, minmax(max(9.5em, (100% - 3 * var(--kr-gap)) / 4), 1fr));
+    margin: 0;
+    padding: 0;
+}
+.kr-team .kr-tile {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #f0f0f0;
+    container-type: inline-size;
+    cursor: pointer;
+    outline-offset: 2px;
+    -webkit-tap-highlight-color: transparent;
+}
+.kr-team .kr-tile__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    object-fit: cover;
+    object-position: 50% 20%;
+}
+.kr-team .kr-tile__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35em;
+    padding: 9cqi 8cqi 7cqi;
+    background: var(--colorTechnologyText, #47798c);
+    color: #fff;
+    font-size: clamp(0.72em, 5.6cqi, 1em);
+    line-height: 1.3;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+/* Mouse hover and keyboard focus everywhere; a tap focuses the tile on touch screens */
+.kr-team .kr-tile:hover .kr-tile__overlay,
+.kr-team .kr-tile:has(:focus-visible) .kr-tile__overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+@media (hover: none) {
+    .kr-team .kr-tile:focus-within .kr-tile__overlay {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+/* A shield that swallows the tap which opens the overlay, so the same tap can't land on a link underneath; it steps aside once the overlay is up */
+.kr-team .kr-tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    transition: visibility 0s;
+}
+.kr-team .kr-tile:hover::after,
+.kr-team .kr-tile:focus-within::after {
+    visibility: hidden;
+    transition-delay: 0.3s;
+}
+.kr-team .kr-tile p {
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+.kr-team .kr-tile .kr-tile__name {
+    font-size: 1.2em;
+    font-weight: 700;
+    line-height: 1.2;
+}
+.kr-team .kr-tile .kr-tile__position {
+    opacity: 0.85;
+}
+.kr-team .kr-tile__contact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    margin-top: 0.6em;
+}
+.kr-team .kr-tile__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55em;
+    overflow-wrap: anywhere;
+    /* The site hyphenates body text, which would put a stray "-" into e-mail addresses and phone numbers */
+    hyphens: manual;
+}
+.kr-team .kr-tile .kr-icon {
+    flex: none;
+    width: 1.15em;
+    height: 1.15em;
+    margin-top: 0.05em;
+}
+.kr-team .kr-tile a {
+    color: inherit;
+    text-decoration: none;
+}
+.kr-team .kr-tile a:hover,
+.kr-team .kr-tile a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+.kr-team .kr-tile a:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+.kr-team .kr-tile .kr-tile__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: auto;
+    padding-top: 0.5em;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.kr-team .kr-tile__more .kr-icon {
+    transition: transform 0.2s ease;
+}
+.kr-team .kr-tile__more:hover .kr-icon {
+    transform: translateX(0.2em);
+}
+.kr-team .kr-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+/* Small tiles (phones, 2 columns) keep name, position, e-mail and the link; the profile has the rest */
+@container (max-width: 13em) {
+    .kr-team .kr-tile__row--phone,
+    .kr-team .kr-tile__row--room {
+        display: none;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .kr-team .kr-tile__overlay,
+    .kr-team .kr-tile__more .kr-icon {
+        transition: none;
+    }
+}
+</style>
+<div class="kr-grid">
+{%- for p in people %}
+    {#- tabindex="-1": a tap focuses the tile (which opens the overlay) without adding a stop to the keyboard tab order; keyboard users land on the links inside #}
+    <div class="kr-tile" tabindex="-1">
+        {#- ubf-js-loaded: the AsyncPicture script never processes inserted images, and the site hides them until it does; alt is empty because the overlay names the person #}
+        <img class="kr-tile__img ubf-js-loaded" src="{{ p.photo }}" alt="" loading="lazy" draggable="false"/>
+        <div class="kr-tile__overlay">
+            <p class="kr-tile__name">{{ p.name }}</p>
+            <p class="kr-tile__position">{{ p.position }}</p>
+            <div class="kr-tile__contact">
+                {%- if p.phone %}
+                <div class="kr-tile__row kr-tile__row--phone">{{ icon.phone() }}<span class="kr-sr">{{ L.phone }}: </span><a href="tel:{{ p.phone | replace(' ', '') }}">{{ p.phone }}</a></div>
+                {%- endif %}
+                {%- if p.email %}
+                <div class="kr-tile__row kr-tile__row--email">{{ icon.mail() }}<span class="kr-sr">{{ L.email }}: </span><a href="{{ ('mailto:' ~ p.email) | obfuscate }}">{{ p.email | email_html }}</a></div>
+                {%- endif %}
+                {%- if p.room %}
+                <div class="kr-tile__row kr-tile__row--room">{{ icon.room() }}<span class="kr-sr">{{ L.room }}: </span><span>{{ p.room }}</span></div>
+                {%- endif %}
+            </div>
+            <a class="kr-tile__more" href="{{ profile_page }}#{{ p.slug }}">{{ L.more }}<span class="kr-sr">: {{ p.name }}</span>{{ icon.arrow() }}</a>
+        </div>
+    </div>
+{%- endfor %}
+</div>
+</div>
