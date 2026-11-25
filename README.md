@@ -47,4 +47,5 @@ uv run generate_team.py --out-dir out
 - The page's `#triangle-right` SVG sprite isn't reliably present, so the icon is an inline path.
 - The AsyncPicture script doesn't process inserted images, so they carry `ubf-js-loaded` to escape the site's hide-until-loaded rule.
 - The site sets `html { font-size: 62.5% }`, so 1rem is 10px; the grid and profile styles size things in em (relative to the 16px body text) instead.
+- The theme paints a white content background over anything not stacked above it; CMS sections escape that via `.ubf-section__content { position: relative; z-index: 2 }`. The grid and profile wrappers set the same, so an RXML block placed outside a section isn't rendered blank.
 - `body` has `hyphens: auto`, which would hyphenate e-mail addresses in narrow tiles; the contact rows turn it off.

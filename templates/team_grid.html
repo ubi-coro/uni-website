@@ -2,6 +2,11 @@
 {%- import "_icons.html" as icon -%}
 <div class="kr-team">
 <style>
+/* Stack above the theme's white content background, as .ubf-section__content does; without this the block is painted over (blank) whenever it sits outside a CMS section */
+.kr-team {
+    position: relative;
+    z-index: 2;
+}
 .kr-team .kr-grid {
     --kr-gap: 1em;
     display: grid;
