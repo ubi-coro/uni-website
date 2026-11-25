@@ -44,9 +44,16 @@
 }
 .kr-profiles .kr-profile__name {
     margin-top: 0;
+    /* The site hyphenates body text, which split surnames ("Neu-mann") */
+    hyphens: manual;
 }
-.kr-profiles .kr-profile__intro {
-    margin-top: 1.5em;
+/* Contact details and profile links in regular weight; the site sets links bold */
+.kr-profiles .kr-profile__head a {
+    font-weight: 400;
+}
+/* Intro, supervisor and the back link run full width below the photo and contact details */
+.kr-profiles .kr-profile__text {
+    grid-column: 1 / -1;
 }
 .kr-profiles .kr-profile__supervisor {
     margin-top: 1.5em;
@@ -79,7 +86,7 @@
         {#- ubf-js-loaded: the AsyncPicture script never processes inserted images, and the site hides them until it does #}
         <img class="ubf-js-loaded" src="{{ p.photo }}" alt="{{ p.name }}" loading="lazy" draggable="false"/>
     </figure>
-    <div class="kr-profile__body">
+    <div class="kr-profile__head">
         <p class="kr-profile__position">{{ p.position }}</p>
         <h2 class="kr-profile__name" id="{{ p.slug }}-name">{{ p.name }}</h2>
         {%- if p.email %}
@@ -99,7 +106,7 @@
             <dd class="ubf-contact__detailValue">{{ p.room }}</dd>
             {%- endif %}
             {%- if p.links %}
-            <dt class="ubf-contact__detailName">{{ L.profiles }}</dt>
+            <dt class="ubf-contact__detailName">{{ L.find_me }}</dt>
             <dd class="ubf-contact__detailValue">
                 {%- for kind, url in p.links.items() %}
                 {%- if kind in icons %}
@@ -111,6 +118,8 @@
             </dd>
             {%- endif %}
         </dl>
+    </div>
+    <div class="kr-profile__text">
         {%- if p.intro %}
         <div class="kr-profile__intro">
             {{ p.intro | paragraphs }}
