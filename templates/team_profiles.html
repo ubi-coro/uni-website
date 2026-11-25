@@ -140,4 +140,16 @@
     </div>
 </section>
 {%- endfor %}
+<script>
+/* Without a hash naming a profile (bare URL, breadcrumb, search hit, a person who has left), go to the team page instead of showing the "pick someone" note. Only on the public site and not inside a frame, so the Roxen editor still opens this page; ?noredirect skips it by hand. */
+(function () {
+    if (location.hostname !== "www.uni-bielefeld.de" || location.pathname.indexOf("/(") !== -1 || window.top !== window.self || /[?&]noredirect\b/.test(location.search)) return;
+    function check() {
+        var el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+        if (!el || !el.classList.contains("kr-profile")) location.replace({{ team_page | tojson }});
+    }
+    check();
+    window.addEventListener("hashchange", check);
+})();
+</script>
 </div>
